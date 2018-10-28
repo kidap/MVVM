@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="U6b-Vx-4bR" customClass="CollectionReusableView" customModule="MVVM" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T6J-fd-v12">
+                    <rect key="frame" x="268" y="0.0" width="42" height="50"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l7i-yS-Oh6">
+                    <rect key="frame" x="8" y="0.0" width="260" height="50"/>
+                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="32"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <constraints>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="T6J-fd-v12" secondAttribute="bottom" id="DHk-gl-4ZT"/>
+                <constraint firstItem="l7i-yS-Oh6" firstAttribute="top" secondItem="VXr-Tz-HHm" secondAttribute="top" id="GCv-hy-tz8"/>
+                <constraint firstItem="l7i-yS-Oh6" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="8" id="Wen-8H-F6j"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="l7i-yS-Oh6" secondAttribute="bottom" id="lzU-dx-ejj"/>
+                <constraint firstItem="T6J-fd-v12" firstAttribute="leading" secondItem="l7i-yS-Oh6" secondAttribute="trailing" id="ukc-TX-o2A"/>
+                <constraint firstItem="T6J-fd-v12" firstAttribute="top" secondItem="VXr-Tz-HHm" secondAttribute="top" id="wne-jm-Sq0"/>
+                <constraint firstAttribute="trailing" secondItem="T6J-fd-v12" secondAttribute="trailing" constant="10" id="zyI-5H-W7G"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
+            <connections>
+                <outlet property="countLabel" destination="T6J-fd-v12" id="ftU-ut-Ngh"/>
+                <outlet property="label" destination="l7i-yS-Oh6" id="CW0-2i-Yge"/>
+            </connections>
+        </collectionReusableView>
+    </objects>
+</document>
