@@ -51,59 +51,25 @@ class OnlineOrdersViewModel {
         }
     }
 
-    func resetData() {
-        coreDataManager.resetData()
-        refreshData()
-    }
-
-    func refreshData() {
-        fetchOnlineOrders()
-        onRefresh?()
-    }
-
-    func items(forSection section: Int) -> Int {
-        if section == 0 {
-            return pendingOnlineOrders.count
-        } else {
-            return acceptedOnlineOrders.count
-        }
-    }
-
-    func headerCount(forSection section: Int) -> String {
-        if section == 0 {
-            return String(pendingOnlineOrders.count) + " items"
-        } else {
-            return String(acceptedOnlineOrders.count) + " items"
-        }
-    }
-
-    func headerText(forSection section: Int) -> String {
-        if section == 0 {
-            return "Pending"
-        } else {
-            return "Accepted"
-        }
-    }
-
-    func accept(row: Int) throws {
-        guard row <= pendingOnlineOrders.count - 1 else { throw "Index out of range" }
-
-        let acceptMe = try onlineOrder(withobjectID: pendingOnlineOrders[row].objectID)
-        acceptMe.isAccepted = true
-        coreDataManager.save()
-    }
-
-    func decline(row: Int) throws {
-        guard row <= pendingOnlineOrders.count - 1 else { throw "Index out of range" }
-
-        let declineMe = try onlineOrder(withobjectID: pendingOnlineOrders[row].objectID)
-        coreDataManager.viewContext.delete(declineMe)
-        coreDataManager.save()
-    }
+    //ADD CODE HERE
 
 }
 
 private extension OnlineOrdersViewModel {
+    
+    func fetchOnlineOrders() {
+        allOnlineOrders = coreDataManager.fetchOnlineOrders()
+        
+        pendingOnlineOrders = allOnlineOrders
+            .filter { !$0.isAccepted}
+            .map { OnlineOrderPresentationModel(orderNumber: $0.orderNumber, amount: $0.amount, objectID: $0.objectID)
+                
+        }
+        acceptedOnlineOrders = allOnlineOrders
+            .filter { $0.isAccepted}
+            .map { OnlineOrderPresentationModel(orderNumber: $0.orderNumber, amount: $0.amount, objectID: $0.objectID, isActionable: false)}
+    }
+    
     func onlineOrder(withobjectID objectID: NSManagedObjectID) throws -> OnlineOrder {
         let backingObject = allOnlineOrders.filter { $0.objectID == objectID }.first
         guard let onlineOrder = backingObject else {
@@ -111,18 +77,5 @@ private extension OnlineOrdersViewModel {
         }
 
         return onlineOrder
-    }
-
-    func fetchOnlineOrders() {
-        allOnlineOrders = coreDataManager.fetchOnlineOrders()
-
-        pendingOnlineOrders = allOnlineOrders
-            .filter { !$0.isAccepted}
-            .map { OnlineOrderPresentationModel(orderNumber: $0.orderNumber, amount: $0.amount, objectID: $0.objectID)
-
-        }
-        acceptedOnlineOrders = allOnlineOrders
-            .filter { $0.isAccepted}
-            .map { OnlineOrderPresentationModel(orderNumber: $0.orderNumber, amount: $0.amount, objectID: $0.objectID, isActionable: false)}
     }
 }

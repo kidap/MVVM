@@ -21,7 +21,7 @@ class OnlineOrdersViewController: UIViewController {
     var acceptedOnlineOrders: [OnlineOrder] = []
 
 
-    lazy var viewModel = { OnlineOrdersViewModel(coreDataManager: coreDataManager) }()
+//    lazy var viewModel = { OnlineOrdersViewModel(coreDataManager: coreDataManager) }()
 
     //MARK:- Lifecycle methods
     override func viewDidLoad() {
@@ -32,16 +32,15 @@ class OnlineOrdersViewController: UIViewController {
         setupNavigationController()
         setupCollectionView()
 
-        viewModel.onRefresh = {
-            self.collectionView.reloadData()
-        }
-//        refreshData()
+//        viewModel.onRefresh = {
+//            self.collectionView.reloadData()
+//        }
+
     }
 
     @IBAction func resetData(_ sender: Any) {
-//        coreDataManager.resetData()
-//        refreshData()
-        viewModel.resetData()
+        coreDataManager.resetData()
+        refreshData()
     }
 }
 
@@ -101,66 +100,47 @@ extension OnlineOrdersViewController: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseIdentifier, for: indexPath) as! CustomCollectionViewCell
 
-//        let onlineOrder: OnlineOrder
-//        let isPendingSection = indexPath.section == 0
-//
-//        if isPendingSection {
-//            onlineOrder = pendingOnlineOrders[indexPath.row]
-//        } else {
-//            onlineOrder = acceptedOnlineOrders[indexPath.row]
-//        }
-//
-//
-//        cell.orderLabel?.text = "Order #\(onlineOrder.orderNumber.toString())"
-//        cell.amountLabel?.text = "Total: \(onlineOrder.amount.formattedCurrency())"
-//        cell.isActionEnabled = isPendingSection
-//
-//        cell.onAccept = { [weak self, indexPath] in
-//            self?.accept(row: indexPath.row)
-//            self?.refreshData()
-//        }
-//
-//        cell.onDecline = { [weak self, indexPath] in
-//            self?.decline(row: indexPath.row)
-//            self?.refreshData()
-//        }
+        let onlineOrder: OnlineOrder
+        let isPendingSection = indexPath.section == 0
 
-        cell.orderLabel?.text = viewModel.onlineOrder(forIndexPath: indexPath).orderNumber
-        cell.amountLabel?.text = viewModel.onlineOrder(forIndexPath: indexPath).amount
-        cell.isActionEnabled =  viewModel.onlineOrder(forIndexPath: indexPath).isActionable
+        if isPendingSection {
+            onlineOrder = pendingOnlineOrders[indexPath.row]
+        } else {
+            onlineOrder = acceptedOnlineOrders[indexPath.row]
+        }
+
+
+        cell.orderLabel?.text = "Order #\(onlineOrder.orderNumber.toString())"
+        cell.amountLabel?.text = "Total: \(onlineOrder.amount.formattedCurrency())"
+        cell.isActionEnabled = isPendingSection
 
         cell.onAccept = { [weak self, indexPath] in
-            try? self?.viewModel.accept(row: indexPath.row)
-            self?.viewModel.refreshData()
+            self?.accept(row: indexPath.row)
+            self?.refreshData()
         }
 
         cell.onDecline = { [weak self, indexPath] in
-            try? self?.viewModel.decline(row: indexPath.row)
-            self?.viewModel.refreshData()
+            self?.decline(row: indexPath.row)
+            self?.refreshData()
         }
 
         return cell
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-//        return 2
-        return viewModel.numberOfSections
+        return 2
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return items(forSection: section)
-        return viewModel.items(forSection: section)
+        return items(forSection: section)
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let view = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionReusableView.reuseIdentifier, for: indexPath) as! CollectionReusableView
 
-//        view.label.text = headerText(forSection: indexPath.section)
-//        view.countLabel.text = headerCount(forSection: indexPath.section)
-
-        view.label.text = viewModel.headerText(forSection: indexPath.section)
-        view.countLabel.text = viewModel.headerCount(forSection: indexPath.section)
-
+        view.label.text = headerText(forSection: indexPath.section)
+        view.countLabel.text = headerCount(forSection: indexPath.section)
+        
         view.backgroundColor = .lightGray
         return view
     }
